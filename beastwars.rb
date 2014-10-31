@@ -67,17 +67,18 @@ opp_s = opponent.stats[3]
 end
 
 claw = Proc.new {
-    opp_h -= (20*char_a/opp_d)
-        puts "Your opponenets health is now #{opp_h}"
-    opp_d -= (opp_d*0.2).floor
-        puts "Your opponenets defense is now #{opp_d}"}
+    opp_h -= (30*char_a/opp_d)
+        puts "Your opponenets health is now #{opp_h}"}
+    char_s += (char_s*1.1)
         
 bite = Proc.new {
-    opp_h -= (30*char_a/opp_d)
-        puts "Your opponenets  health is now #{opp_h}"}
+    opp_h -= (20*char_a/opp_d)
+        puts "Your opponenets  health is now #{opp_h}"
+    opp_d -= (opp_d*0.2).floor
+        puts "Your opponenets defense is now #{opp_d}"}
             
 jab = Proc.new {
-    opp_h -= (10*char_a/opp_d)
+    opp_h -= ((10*char_a/opp_d) + (10*char_s/opp_s))
         puts "Your opponenets  health is now #{opp_h}"}
         
 loop do
@@ -91,13 +92,13 @@ if opp_h <= 0
     end
     
     puts "What action would you like to perform? (Claw, Bite, Jab or exit)"
-
 action = gets.chomp.downcase
     if action == "claw"
+        
         claw.call
         elsif action == "bite"
             bite.call
-            elsif action == "Jab"
+            elsif action == "jab"
                 jab.call 
     else break
 end
