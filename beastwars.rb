@@ -1,5 +1,15 @@
 #beastwars
 
+#currently not working
+class Moves
+        def moves
+    [@claw = 20,
+    @bite = 30,
+    @jab = 10]
+end
+end
+
+#working
 class Bear
     def stats
     [@health = 100,
@@ -9,13 +19,19 @@ class Bear
 end
 end
 
-class Moves
-        def moves
-    [@claw = 20,
-    @bite = 30,
-    @jab = 10]
+class Tiger
+    def stats
+    [@health = 90,
+    @attack = 25,
+    @defense = 15,
+    @speed = 20]
 end
 end
+
+puts "Would you like to be a Bear or a Tiger?"
+char_select = gets.chomp.downcase
+
+if char_select == "bear"
     
 character = Bear.new
 char_h = character.stats[0]
@@ -26,12 +42,29 @@ puts "Health = #{char_h}"
 puts "Attack = #{char_a}"
 puts "Defense = #{char_d}"
 puts "Speed = #{char_s}"
+opponent = Tiger.new
+opp_h = opponent.stats[0]
+opp_a = opponent.stats[1]
+opp_d = opponent.stats[2]
+opp_s = opponent.stats[3]
 
+elsif char_select == "tiger"
+
+character = Tiger.new
+char_h = character.stats[0]
+char_a = character.stats[1]
+char_d = character.stats[2]
+char_s = character.stats[3]
+puts "Health = #{char_h}"
+puts "Attack = #{char_a}"
+puts "Defense = #{char_d}"
+puts "Speed = #{char_s}"
 opponent = Bear.new
 opp_h = opponent.stats[0]
 opp_a = opponent.stats[1]
 opp_d = opponent.stats[2]
 opp_s = opponent.stats[3]
+end
 
 claw = Proc.new {
     opp_h -= (20*char_a/opp_d)
