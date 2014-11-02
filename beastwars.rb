@@ -10,7 +10,6 @@ end
 end
 
 #working
-
 class Bear
     def stats
     [@health = 100.0,
@@ -29,6 +28,7 @@ class Tiger
 end
 end
 
+loop do
 puts "Would you like to be a Bear or a Tiger?"
 char_select = gets.chomp.downcase
 
@@ -52,6 +52,7 @@ puts "Opponents Health = #{opp_h.to_i}"
 puts "Opponents Attack = #{opp_a.to_i}"
 puts "Opponents Defense = #{opp_d.to_i}"
 puts "Opponents Speed = #{opp_s.to_i}"
+break
 
 elsif char_select == "tiger"
 
@@ -73,17 +74,20 @@ puts "Opponents Health = #{opp_h.to_i}"
 puts "Opponents Attack = #{opp_a.to_i}"
 puts "Opponents Defense = #{opp_d.to_i}"
 puts "Opponents Speed = #{opp_s.to_i}"
+break
+else
+end
 end
 
 #player attacks
 claw = Proc.new {
-    opp_h -= (30*char_a/opp_d)
+    opp_h -= (25*(char_a/opp_d))
         puts "Your opponenets health is now #{opp_h.to_i}"
     char_s += (char_s*0.1)
         puts "Your speed is now #{char_s.to_i}"}
         
 bite = Proc.new {
-    opp_h -= (20*char_a/opp_d)
+    opp_h -= (20*(char_a/opp_d))
         puts "Your opponenets  health is now #{opp_h.to_i}"
     opp_d -= (opp_d*0.2)
         puts "Your opponenets defense is now #{opp_d.to_i}"}
@@ -94,13 +98,13 @@ jab = Proc.new {
         
 #opponent attacks
 claw1 = Proc.new {
-    char_h -= (30*opp_a/char_d)
+    char_h -= (25*(opp_a/char_d))
         puts "Your health is now #{char_h.to_i}"
     opp_s += (opp_s*0.1)
         puts "Your opponents speed is now #{opp_s.to_i}"}
         
 bite1 = Proc.new {
-    opp_h -= (20*char_a/opp_d)
+    opp_h -= (20*(char_a/opp_d))
         puts "Your opponenets  health is now #{opp_h.to_i}"
     opp_d -= (opp_d*0.2)
         puts "Your opponenets defense is now #{opp_d.to_i}"}
