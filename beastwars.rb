@@ -124,14 +124,35 @@ if opp_h <= 0
     puts "What action would you like to perform? (Claw, Bite, Jab or exit)"
 action = gets.chomp.downcase
     if action == "claw"
+        if char_s >= opp_s
         claw.call
+        puts "You strike first"
         (opp_atk.sample).call
-        elsif action == "bite"
-            bite.call
-            (opp_atk.sample).call
-            elsif action == "jab"
-                jab.call
+            else char_s < opp_s
                 (opp_atk.sample).call
+                "Your opponent strikes first"
+                claw.call  
+            end
+        elsif action == "bite"
+            if char_s >= opp_s
+        bite.call
+        puts "You strike first"
+        (opp_atk.sample).call
+            else char_s < opp_s
+                (opp_atk.sample).call
+                "Your opponent strikes first"
+                bite.call  
+            end
+            elsif action == "jab"
+                if char_s >= opp_s
+        jab.call
+        puts "You strike first"
+        (opp_atk.sample).call
+            else char_s < opp_s
+                (opp_atk.sample).call
+                "Your opponent strikes first"
+                jab.call  
+            end
     else break
 end
 end
