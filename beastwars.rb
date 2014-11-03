@@ -28,7 +28,6 @@ class Tiger
 end
 end
 
-loop do
 puts "Would you like to be a Bear or a Tiger?"
 char_select = gets.chomp.downcase
 
@@ -52,7 +51,7 @@ puts "Opponents Health = #{opp_h.to_i}"
 puts "Opponents Attack = #{opp_a.to_i}"
 puts "Opponents Defense = #{opp_d.to_i}"
 puts "Opponents Speed = #{opp_s.to_i}"
-break
+
 
 elsif char_select == "tiger"
 
@@ -74,9 +73,7 @@ puts "Opponents Health = #{opp_h.to_i}"
 puts "Opponents Attack = #{opp_a.to_i}"
 puts "Opponents Defense = #{opp_d.to_i}"
 puts "Opponents Speed = #{opp_s.to_i}"
-break
-else
-end
+
 end
 
 #player attacks
@@ -88,13 +85,13 @@ claw = Proc.new {
         
 bite = Proc.new {
     opp_h -= (20*(char_a/opp_d))
-        puts "Your opponenets  health is now #{opp_h.to_i}"
+        puts "Your opponenets health is now #{opp_h.to_i}"
     opp_d -= (opp_d*0.2)
         puts "Your opponenets defense is now #{opp_d.to_i}"}
             
 jab = Proc.new {
     opp_h -= ((10*(char_a/opp_d)) + (10*(char_s/opp_s)))
-        puts "Your opponenets  health is now #{opp_h.to_i}"}
+        puts "Your opponenets health is now #{opp_h.to_i}"}
         
 #opponent attacks
 claw1 = Proc.new {
@@ -104,17 +101,18 @@ claw1 = Proc.new {
         puts "Your opponents speed is now #{opp_s.to_i}"}
         
 bite1 = Proc.new {
-    opp_h -= (20*(char_a/opp_d))
-        puts "Your opponenets  health is now #{opp_h.to_i}"
-    opp_d -= (opp_d*0.2)
-        puts "Your opponenets defense is now #{opp_d.to_i}"}
+    char_h -= (20*(opp_a/char_d))
+        puts "Your health is now #{char_h.to_i}"
+    char_d -= (char_d*0.2)
+        puts "Your defense is now #{char_d.to_i}"}
             
 jab1 = Proc.new {
-    opp_h -= ((10*(char_a/opp_d)) + (10*(char_s/opp_s)))
-        puts "Your opponenets  health is now #{opp_h.to_i}"}
+    char_h -= ((10*(opp_a/char_d)) + (10*(opp_s/char_s)))
+        puts "Your health is now #{char_h.to_i}"}
+        
+opp_atk = [claw1,bite1,jab1]       
         
 loop do
-
 if opp_h <= 0
     puts "Congradulations you have defeated your opponent."
     break
@@ -127,13 +125,13 @@ if opp_h <= 0
 action = gets.chomp.downcase
     if action == "claw"
         claw.call
-        claw1.call
+        (opp_atk.sample).call
         elsif action == "bite"
             bite.call
-            claw1.call
+            (opp_atk.sample).call
             elsif action == "jab"
                 jab.call
-                claw1.call
+                (opp_atk.sample).call
     else break
 end
 end
