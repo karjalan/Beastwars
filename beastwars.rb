@@ -130,7 +130,7 @@ action = gets.chomp.downcase
         (opp_atk.sample).call
             else char_s < opp_s
                 (opp_atk.sample).call
-                "Your opponent strikes first"
+                puts "Your opponent strikes first"
                 claw.call  
             end
         elsif action == "bite"
@@ -140,7 +140,7 @@ action = gets.chomp.downcase
         (opp_atk.sample).call
             else char_s < opp_s
                 (opp_atk.sample).call
-                "Your opponent strikes first"
+                puts "Your opponent strikes first"
                 bite.call  
             end
             elsif action == "jab"
@@ -150,7 +150,7 @@ action = gets.chomp.downcase
         (opp_atk.sample).call
             else char_s < opp_s
                 (opp_atk.sample).call
-                "Your opponent strikes first"
+                puts "Your opponent strikes first"
                 jab.call  
             end
     else break
