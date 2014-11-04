@@ -11,6 +11,12 @@ end
 
 #working
 class Bear
+    def initialize(name)
+    @name = name
+    end
+        def to_s
+        @name
+        end
     def stats
     [@health = 100.0,
     @attack = 15.0,
@@ -20,29 +26,38 @@ end
 end
 
 class Tiger
+    def initialize(name)
+    @name = name
+    end
+        def to_s
+        @name
+        end
     def stats
     [@health = 90.0,
     @attack = 25.0,
     @defense = 15.0,
     @speed = 20.0]
-end
+    end
 end
 
 puts "Would you like to be a Bear or a Tiger?"
 char_select = gets.chomp.downcase
+puts "Enter in a name for your character"
+name = gets.chomp
 
 if char_select == "bear"
     
-character = Bear.new
+character = Bear.new("#{name}")
 char_h = character.stats[0]
 char_a = character.stats[1]
 char_d = character.stats[2]
 char_s = character.stats[3]
+puts "Your characters name is #{character.to_s} and stats are"
 puts "Health = #{char_h.to_i}"
 puts "Attack = #{char_a.to_i}"
 puts "Defense = #{char_d.to_i}"
 puts "Speed = #{char_s.to_i}"
-opponent = Tiger.new
+opponent = Tiger.new("Opponent")
 opp_h = opponent.stats[0]
 opp_a = opponent.stats[1]
 opp_d = opponent.stats[2]
@@ -55,16 +70,17 @@ puts "Opponents Speed = #{opp_s.to_i}"
 
 elsif char_select == "tiger"
 
-character = Tiger.new
+character = Tiger.new("#{name}")
 char_h = character.stats[0]
 char_a = character.stats[1]
 char_d = character.stats[2]
 char_s = character.stats[3]
+puts "Your characters name is #{character.to_s} and stats are"
 puts "Health = #{char_h.to_i}"
 puts "Attack = #{char_a.to_i}"
 puts "Defense = #{char_d.to_i}"
 puts "Speed = #{char_s.to_i}"
-opponent = Bear.new
+opponent = Bear.new("Opponent")
 opp_h = opponent.stats[0]
 opp_a = opponent.stats[1]
 opp_d = opponent.stats[2]
