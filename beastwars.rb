@@ -1,15 +1,3 @@
-#beastwars
-
-#currently not working
-class Moves
-        def moves
-    [@claw = 20,
-    @bite = 30,
-    @jab = 10]
-end
-end
-
-#working
 class Bear
     def initialize(name)
     @name = name
@@ -19,9 +7,9 @@ class Bear
         end
     def stats
     [@health = 100.0,
-    @attack = 15.0,
+    @attack = 20.0,
     @defense = 25.0,
-    @speed = 10.0]
+    @speed = 15.0]
 end
 end
 
@@ -34,43 +22,60 @@ class Tiger
         end
     def stats
     [@health = 90.0,
-    @attack = 25.0,
-    @defense = 15.0,
+    @attack = 30.0,
+    @defense = 20.0,
     @speed = 20.0]
     end
 end
 
-puts "Would you like to be a Bear or a Tiger?"
+class Turtle
+        def initialize(name)
+    @name = name
+    end
+        def to_s
+        @name
+        end
+    def stats
+    [@health = 110.0,
+    @attack = 10.0,
+    @defense = 35.0,
+    @speed = 5.0]
+    end
+end
+
+class Eagle
+         def initialize(name)
+    @name = name
+    end
+        def to_s
+        @name
+        end
+    def stats
+    [@health = 85.0,
+    @attack = 35.0,
+    @defense = 15.0,
+    @speed = 25.0]
+    end
+end
+
+char_array = [Bear, Tiger, Turtle, Eagle]
+opp_char = char_array.sample
+
+puts "Would you like to be a Bear a Tiger a Turtle or an Eagle?"
 char_select = gets.chomp.downcase
 puts "Enter in a name for your character"
 name = gets.chomp
 
 if char_select == "bear"
-    
 character = Bear.new("#{name}")
-char_h = character.stats[0]
-char_a = character.stats[1]
-char_d = character.stats[2]
-char_s = character.stats[3]
-puts "Your characters name is #{character.to_s} and stats are"
-puts "Health = #{char_h.to_i}"
-puts "Attack = #{char_a.to_i}"
-puts "Defense = #{char_d.to_i}"
-puts "Speed = #{char_s.to_i}"
-opponent = Tiger.new("Opponent")
-opp_h = opponent.stats[0]
-opp_a = opponent.stats[1]
-opp_d = opponent.stats[2]
-opp_s = opponent.stats[3]
-puts "Opponents Health = #{opp_h.to_i}"
-puts "Opponents Attack = #{opp_a.to_i}"
-puts "Opponents Defense = #{opp_d.to_i}"
-puts "Opponents Speed = #{opp_s.to_i}"
-
-
 elsif char_select == "tiger"
-
 character = Tiger.new("#{name}")
+elsif char_select == "turtle"
+character = Turtle.new("#{name}")
+elsif char_select == "eagle"
+character = Eagle.new("#{name}")
+end
+
 char_h = character.stats[0]
 char_a = character.stats[1]
 char_d = character.stats[2]
@@ -80,7 +85,8 @@ puts "Health = #{char_h.to_i}"
 puts "Attack = #{char_a.to_i}"
 puts "Defense = #{char_d.to_i}"
 puts "Speed = #{char_s.to_i}"
-opponent = Bear.new("Opponent")
+
+opponent = opp_char.new("Opponent")
 opp_h = opponent.stats[0]
 opp_a = opponent.stats[1]
 opp_d = opponent.stats[2]
@@ -90,34 +96,33 @@ puts "Opponents Attack = #{opp_a.to_i}"
 puts "Opponents Defense = #{opp_d.to_i}"
 puts "Opponents Speed = #{opp_s.to_i}"
 
-end
 
 #player attacks
 claw = Proc.new {
-    opp_h -= (25*(char_a/opp_d))
+    opp_h -= ((char_a/opp_d)*25)
         puts "Your opponenets health is now #{opp_h.to_i}"
     char_s += (char_s*0.1)
         puts "Your speed is now #{char_s.to_i}"}
         
 bite = Proc.new {
-    opp_h -= (20*(char_a/opp_d))
+    opp_h -= ((char_a/opp_d)*20)
         puts "Your opponenets health is now #{opp_h.to_i}"
     opp_d -= (opp_d*0.2)
         puts "Your opponenets defense is now #{opp_d.to_i}"}
             
 jab = Proc.new {
-    opp_h -= ((10*(char_a/opp_d)) + (10*(char_s/opp_s)))
+    opp_h -= (((char_a/opp_d)*10) + ((char_s/opp_s)*10))
         puts "Your opponenets health is now #{opp_h.to_i}"}
         
 #opponent attacks
 claw1 = Proc.new {
-    char_h -= (25*(opp_a/char_d))
+    char_h -= ((opp_a/char_d)*25)
         puts "Your health is now #{char_h.to_i}"
     opp_s += (opp_s*0.1)
         puts "Your opponents speed is now #{opp_s.to_i}"}
         
 bite1 = Proc.new {
-    char_h -= (20*(opp_a/char_d))
+    char_h -= ((opp_a/char_d)*20)
         puts "Your health is now #{char_h.to_i}"
     char_d -= (char_d*0.2)
         puts "Your defense is now #{char_d.to_i}"}
