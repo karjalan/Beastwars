@@ -187,6 +187,9 @@ action = gets.chomp.downcase
       puts "Your opponent strikes first"
       jab.call  
     end
-  else break
-  end
+  elsif action =="exit"
+    break
+  else 
+    puts "Please enter a correct action"
+end
 end
