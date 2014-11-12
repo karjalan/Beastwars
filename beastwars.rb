@@ -6,7 +6,7 @@ class Bear
     @name
   end
   def title
-    "Bear"
+    "bear"
   end
   def stats
     [@health = 100.0,
@@ -24,7 +24,7 @@ class Tiger
     @name
   end
   def title
-    "Tiger"
+    "tiger"
   end
   def stats
     [@health = 90.0,
@@ -42,7 +42,7 @@ class Turtle
     @name
   end
   def title
-    "Turtle"
+    "turtle"
   end
   def stats
     [@health = 110.0,
@@ -60,7 +60,7 @@ class Eagle
     @name
   end
   def title
-    "Eagle"
+    "eagle"
   end
   def stats
     [@health = 85.0,
@@ -70,6 +70,9 @@ class Eagle
   end
 end
 
+x = 1.0
+y = 1.0
+z = 1.0
 char_array = [Bear, Tiger, Turtle, Eagle]
 opp_char = char_array.sample
 
@@ -92,7 +95,7 @@ char_h = character.stats[0]
 char_a = character.stats[1]
 char_d = character.stats[2]
 char_s = character.stats[3]
-puts "Your characters name is #{character.to_s} and stats are"
+puts "Your characters name is #{character.to_s.capitalize} and stats are"
 puts "Health = #{char_h.to_i}"
 puts "Attack = #{char_a.to_i}"
 puts "Defense = #{char_d.to_i}"
@@ -103,46 +106,69 @@ opp_h = opponent.stats[0]
 opp_a = opponent.stats[1]
 opp_d = opponent.stats[2]
 opp_s = opponent.stats[3]
-puts "The mighty #{opponent.title} is your opponent and it's stats are"
+puts "The mighty #{opponent.title.capitalize} is your opponent and it's stats are"
 puts "Opponents Health = #{opp_h.to_i}"
 puts "Opponents Attack = #{opp_a.to_i}"
 puts "Opponents Defense = #{opp_d.to_i}"
 puts "Opponents Speed = #{opp_s.to_i}"
 
+char_dmg = Proc.new{
+  (((char_a/opp_d)*x*y)+z)*0.5
+    }
+    
+opp_dmg = Proc.new{
+  (((opp_a/char_d)*x*y)+z)*0.5
+    }
 
 #player attacks
 claw = Proc.new {
-  opp_h -= ((char_a/opp_d)*25)
+    x = 25
+  opp_h -= char_dmg.call
     puts "Your opponenets health is now #{opp_h.to_i}"
   char_s += (char_s*0.1)
     puts "Your speed is now #{char_s.to_i}"}
         
 bite = Proc.new {
-  opp_h -= ((char_a/opp_d)*20)
+  x = 20
+  opp_h -= char_dmg.call
     puts "Your opponenets health is now #{opp_h.to_i}"
   opp_d -= (opp_d*0.2)
     puts "Your opponenets defense is now #{opp_d.to_i}"}
             
 jab = Proc.new {
-  opp_h -= (((char_a/opp_d)*10) + ((char_s/opp_s)*10))
+  x = 10
+  z = ((char_s/opp_s)*10)
+  opp_h -= char_dmg.call
     puts "Your opponenets health is now #{opp_h.to_i}"}
         
 #opponent attacks
 claw1 = Proc.new {
-  char_h -= ((opp_a/char_d)*25)
+  x = 25
+  char_h -= opp_dmg.call
     puts "Your health is now #{char_h.to_i}"
   opp_s += (opp_s*0.1)
     puts "Your opponents speed is now #{opp_s.to_i}"}
         
 bite1 = Proc.new {
-  char_h -= ((opp_a/char_d)*20)
+  x = 20
+  char_h -= opp_dmg.call
     puts "Your health is now #{char_h.to_i}"
   char_d -= (char_d*0.2)
     puts "Your defense is now #{char_d.to_i}"}
             
 jab1 = Proc.new {
-  char_h -= ((10*(opp_a/char_d)) + (10*(opp_s/char_s)))
+  x = 10
+  z = ((opp_s/char_s)*10)
+  char_h -= opp_dmg.call
     puts "Your health is now #{char_h.to_i}"}
+    
+#test attack
+
+slap = Proc.new {
+  x = 100
+  char_dmg.call
+    puts "Your opponenets health is now #{opp_h.to_i}"}
+    
         
 opp_atk = [claw1,bite1,jab1]       
         
@@ -187,6 +213,8 @@ action = gets.chomp.downcase
       puts "Your opponent strikes first"
       jab.call  
     end
+  elsif action == "slap"
+    slap.call
   elsif action =="exit"
     break
   else 
