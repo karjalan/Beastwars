@@ -70,14 +70,24 @@ class Eagle
   end
 end
 
+a = 1.0
+b = 1.0
+c = 0.5
 x = 1.0
 y = 1.0
-z = 1.0
+z = 0.0
 char_array = [Bear, Tiger, Turtle, Eagle]
+type_array = ["earth", "water", "air", "fire"]
 opp_char = char_array.sample
+opp_type = type_array.sample
+
 
 puts "Would you like to be a Bear a Tiger a Turtle or an Eagle?"
 char_select = gets.chomp.downcase
+
+puts "What element would you like your beast to be (earth, fire, water or air)."
+char_type = gets.chomp.downcase
+  
 puts "Enter in a name for your character"
 name = gets.chomp
 
@@ -95,7 +105,7 @@ char_h = character.stats[0]
 char_a = character.stats[1]
 char_d = character.stats[2]
 char_s = character.stats[3]
-puts "Your characters name is #{character.to_s.capitalize} and stats are"
+puts "Your characters name is #{character.to_s.capitalize}, type is #{char_type.upcase} and your stats are"
 puts "Health = #{char_h.to_i}"
 puts "Attack = #{char_a.to_i}"
 puts "Defense = #{char_d.to_i}"
@@ -106,70 +116,149 @@ opp_h = opponent.stats[0]
 opp_a = opponent.stats[1]
 opp_d = opponent.stats[2]
 opp_s = opponent.stats[3]
-puts "The mighty #{opponent.title.capitalize} is your opponent and it's stats are"
+puts "The mighty #{opponent.title.capitalize} is your opponent, it is #{opp_type.upcase} type and it's stats are"
 puts "Opponents Health = #{opp_h.to_i}"
 puts "Opponents Attack = #{opp_a.to_i}"
 puts "Opponents Defense = #{opp_d.to_i}"
 puts "Opponents Speed = #{opp_s.to_i}"
 
-char_dmg = Proc.new{
-  (((char_a/opp_d)*x*y)+z)*0.5
-    }
-    
-opp_dmg = Proc.new{
-  (((opp_a/char_d)*x*y)+z)*0.5
-    }
+=begin 
+Damage calculation = Attack/Defense
+x = action damage multiplier
+y = action secondary multiplier
+z = action secondary addition
+a = player element
+b = opponent element
+c = constant (0.5 by default to lengthen game)
+=end
+char_dmg = Proc.new{(((((char_a/opp_d)*x)*y)*b)+z)*c}
+  
+opp_dmg = Proc.new{(((((opp_a/char_d)*x)*y)*a)+z)*c}
+
+# elements
+fire_element = Proc.new {    
+  if opp_type == "water"
+    b = 0.8
+  elsif opp_type == "earth"
+    b = 1.2
+  else b = 1.0
+end
+  if char_type == "water"
+    a = 0.8
+  elsif char_type == "earth"
+    a = 1.2
+  else a = 1.0
+end
+}
+
+water_element = Proc.new {
+  if opp_type == "fire"
+    b = 1.2
+  elsif opp_type == "air"
+    b = 0.8
+  else b = 1.0
+end
+  if char_type == "fire"
+    a = 1.2
+  elsif char_type == "air"
+    a = 0.8
+  else a = 1.0
+end
+}
+
+earth_element = Proc.new {
+  if opp_type == "fire"
+    b = 0.8
+  elsif opp_type == "air"
+    b = 1.2
+  else b = 1.0
+end
+if char_type == "fire"
+    a = 0.8
+  elsif char_type == "air"
+    a = 1.2
+  else a = 1.0
+end
+}
+ 
+air_element = Proc.new {
+  if opp_type == "water"
+    b = 1.2
+  elsif opp_type == "earth"
+    b = 0.8
+  else b = 1.0
+end
+  if char_type == "water"
+    a = 1.2
+  elsif char_type == "earth"
+    a = 0.8
+  else a = 1.0
+end
+}
 
 #player attacks
 claw = Proc.new {
-    x = 25
+  fire_element.call
+  x = 25
   opp_h -= char_dmg.call
+    puts "You attack with an elemental multiplier of #{b}."
     puts "Your opponenets health is now #{opp_h.to_i}"
   char_s += (char_s*0.1)
     puts "Your speed is now #{char_s.to_i}"}
         
 bite = Proc.new {
+  earth_element.call
   x = 20
   opp_h -= char_dmg.call
+  puts "You attack with an elemental multiplier of #{b}."
     puts "Your opponenets health is now #{opp_h.to_i}"
   opp_d -= (opp_d*0.2)
     puts "Your opponenets defense is now #{opp_d.to_i}"}
             
 jab = Proc.new {
+  air_element.call
   x = 10
   z = ((char_s/opp_s)*10)
   opp_h -= char_dmg.call
-    puts "Your opponenets health is now #{opp_h.to_i}"}
+    puts "You attack with an elemental multiplier of #{b}."
+    puts "Your opponenets health is now #{opp_h.to_i}"
+  z = 0.0}
         
 #opponent attacks
 claw1 = Proc.new {
+  fire_element.call
   x = 25
   char_h -= opp_dmg.call
+    puts "Your opponent attacks with an elemental multiplier of #{a}."
     puts "Your health is now #{char_h.to_i}"
   opp_s += (opp_s*0.1)
     puts "Your opponents speed is now #{opp_s.to_i}"}
         
 bite1 = Proc.new {
+  earth_element.call
   x = 20
   char_h -= opp_dmg.call
+    puts "Your opponent attacks with an elemental multiplier of #{a}."
     puts "Your health is now #{char_h.to_i}"
   char_d -= (char_d*0.2)
     puts "Your defense is now #{char_d.to_i}"}
-            
+  
 jab1 = Proc.new {
+  air_element.call
   x = 10
   z = ((opp_s/char_s)*10)
   char_h -= opp_dmg.call
-    puts "Your health is now #{char_h.to_i}"}
+    puts "Your opponent attacks with an elemental multiplier of #{a}."
+    puts "Your health is now #{char_h.to_i}"
+  z = 0.0}
     
-#test attack
-
+#player test attack
 slap = Proc.new {
-  x = 100
+  water_element.call
+  x = 50
   char_dmg.call
     puts "Your opponenets health is now #{opp_h.to_i}"}
-    
-        
+
 opp_atk = [claw1,bite1,jab1]       
         
 loop do
@@ -213,10 +302,10 @@ action = gets.chomp.downcase
       puts "Your opponent strikes first"
       jab.call  
     end
-  elsif action == "slap"
+    elsif action == "slap"
     slap.call
   elsif action =="exit"
-    break
+  break
   else 
     puts "Please enter a correct action"
 end
