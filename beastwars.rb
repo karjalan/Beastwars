@@ -70,6 +70,11 @@ class Eagle
   end
 end
 
+#variables setup
+character = nil
+char_select = nil
+char_type = ""
+turns = 0
 a = 1.0
 b = 1.0
 c = 0.5
@@ -77,17 +82,27 @@ x = 1.0
 y = 1.0
 z = 0.0
 char_array = [Bear, Tiger, Turtle, Eagle]
+char_select_array = ["bear", "tiger", "turtle", "eagle"]
 type_array = ["earth", "water", "air", "fire"]
 opp_char = char_array.sample
 opp_type = type_array.sample
 
-
+loop do if char_select_array.include? char_select
+break
+else
 puts "Would you like to be a Bear a Tiger a Turtle or an Eagle?"
 char_select = gets.chomp.downcase
+end
+end
 
+loop do if type_array.include? char_type
+break
+else
 puts "What element would you like your beast to be (earth, fire, water or air)."
 char_type = gets.chomp.downcase
-  
+end
+end
+
 puts "Enter in a name for your character"
 name = gets.chomp
 
@@ -99,7 +114,9 @@ elsif char_select == "turtle"
 character = Turtle.new("#{name}")
 elsif char_select == "eagle"
 character = Eagle.new("#{name}")
+else puts "Please enter the correct details"
 end
+
 
 char_h = character.stats[0]
 char_a = character.stats[1]
@@ -262,6 +279,9 @@ slap = Proc.new {
 opp_atk = [claw1,bite1,jab1]       
         
 loop do
+    turns += 1
+    puts "Turn #{turns}"
+    if char_s >= opp_s
 if opp_h <= 0
   puts "Congradulations you have defeated your opponent."
   break
@@ -269,7 +289,15 @@ elsif char_h <= 0
   puts "You have been defeated, better luck next time"
   break
 end
-    
+else 
+    if char_h <= 0
+  puts "You have been defeated, better luck next time"
+    break
+elsif  opp_h <= 0
+  puts "Congradulations you have defeated your opponent."
+  break
+end
+end
 puts "What action would you like to perform? (Claw, Bite, Jab or exit)"
 action = gets.chomp.downcase
   if action == "claw"
