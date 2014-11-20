@@ -71,6 +71,8 @@ class Eagle
 end
 
 #variables setup
+char_combo = -1
+opp_combo = -1
 character = nil
 char_select = nil
 char_type = ""
@@ -216,21 +218,27 @@ end
 #player attacks
 claw = Proc.new {
   fire_element.call
+   if char_combo == 3
+    x = 50
+    char_s += 5
+    char_combo = -1
+  else
   x = 25
+  char_s += (char_s*0.1)
+  end
   opp_h -= char_dmg.call
     puts "You attack with an elemental multiplier of #{b}."
-    puts "Your opponenets health is now #{opp_h.to_i}"
-  char_s += (char_s*0.1)
-    puts "Your speed is now #{char_s.to_i}"}
+    puts "Your opponenets health now = #{opp_h.to_i}"
+    puts "Your speed now = #{char_s.to_i}"}
         
 bite = Proc.new {
   earth_element.call
   x = 20
   opp_h -= char_dmg.call
   puts "You attack with an elemental multiplier of #{b}."
-    puts "Your opponenets health is now #{opp_h.to_i}"
+    puts "Your opponenets health now = #{opp_h.to_i}"
   opp_d -= (opp_d*0.2)
-    puts "Your opponenets defense is now #{opp_d.to_i}"}
+    puts "Your opponenets defense now = #{opp_d.to_i}"}
             
 jab = Proc.new {
   air_element.call
@@ -238,27 +246,38 @@ jab = Proc.new {
   z = ((char_s/opp_s)*10)
   opp_h -= char_dmg.call
     puts "You attack with an elemental multiplier of #{b}."
-    puts "Your opponenets health is now #{opp_h.to_i}"
-  z = 0.0}
+    puts "Your opponenets health now = #{opp_h.to_i}"
+  z = 0.0
+  unless char_combo == 3
+        char_combo += 1
+    end}
         
 #opponent attacks
 claw1 = Proc.new {
   fire_element.call
+  if opp_combo == 3
+    x = 50
+    opp_s += 5
+    opp_combo = -1
+  else
   x = 25
+  opp_s += (opp_s*0.1)
+  end
   char_h -= opp_dmg.call
     puts "Your opponent attacks with an elemental multiplier of #{a}."
-    puts "Your health is now #{char_h.to_i}"
-  opp_s += (opp_s*0.1)
-    puts "Your opponents speed is now #{opp_s.to_i}"}
+    puts "Your health now = #{char_h.to_i}"
+  
+    puts "Your opponents speed now = #{opp_s.to_i}"
+    }
         
 bite1 = Proc.new {
   earth_element.call
   x = 20
   char_h -= opp_dmg.call
     puts "Your opponent attacks with an elemental multiplier of #{a}."
-    puts "Your health is now #{char_h.to_i}"
+    puts "Your health now = #{char_h.to_i}"
   char_d -= (char_d*0.2)
-    puts "Your defense is now #{char_d.to_i}"}
+    puts "Your defense now = #{char_d.to_i}"}
   
 jab1 = Proc.new {
   air_element.call
@@ -266,21 +285,31 @@ jab1 = Proc.new {
   z = ((opp_s/char_s)*10)
   char_h -= opp_dmg.call
     puts "Your opponent attacks with an elemental multiplier of #{a}."
-    puts "Your health is now #{char_h.to_i}"
-  z = 0.0}
+    puts "Your health now = #{char_h.to_i}"
+  z = 0.0
+    unless opp_combo == 3
+        opp_combo += 1
+    end}
     
 #player test attack
 slap = Proc.new {
   water_element.call
   x = 50
   char_dmg.call
-    puts "Your opponenets health is now #{opp_h.to_i}"}
+    puts "Your opponenets health now = #{opp_h.to_i}"}
 
 opp_atk = [claw1,bite1,jab1]       
         
 loop do
     turns += 1
+    unless char_combo == 3
+        char_combo += 1
+    end
+    unless opp_combo == 3
+        opp_combo += 1
+    end
     puts "Turn #{turns}"
+    puts "You have #{char_combo} combo points and your opponent has #{opp_combo} combo points"
     if char_s >= opp_s
 if opp_h <= 0
   puts "Congradulations you have defeated your opponent."
